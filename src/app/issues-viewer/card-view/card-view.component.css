@@ -144,7 +144,7 @@ div.column-header .mat-card-header {
   margin-top: 3px;
 }
 
-.hide-assignee-button {
+.hide-button {
   cursor: pointer;
   display: inline-flex;
   font-size: 14px;

@@ -35,4 +35,13 @@ export class HiddenGroupsComponent implements AfterViewInit {
         return this.defaultCardTemplate;
     }
   }
+
+  getShowButtonTooltip(): string {
+    if (this.groupingContextService.currGroupBy === GroupBy.Assignee) {
+      return 'Show Assignee';
+    } else if (this.groupingContextService.currGroupBy === GroupBy.Milestone) {
+      return 'Show Milestone';
+    }
+    return '';
+  }
 }

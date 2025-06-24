@@ -32,7 +32,7 @@
         }"
       ></div>
       <mat-card-title>{{ assignee.login }}</mat-card-title>
-      <div class="show-assignee-button" matTooltip="Show Assignee" matTooltipPosition="above">
+      <div class="show-button" [matTooltip]="getShowButtonTooltip()" matTooltipPosition="above">
         <span class="octicon" octicon="eye"></span>
       </div>
     </mar-card-header>
@@ -43,6 +43,9 @@
   <mat-card>
     <mar-card-header class="mat-card-header">
       <mat-card-title>{{ milestone.title }}</mat-card-title>
+      <div class="show-button" [matTooltip]="getShowButtonTooltip()" matTooltipPosition="above">
+        <span class="octicon" octicon="eye"></span>
+      </div>
     </mar-card-header>
   </mat-card>
 </ng-template>

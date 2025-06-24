@@ -53,7 +53,7 @@
               <span class="octicon count-margins" octicon="git-pull-request"></span>
               <span>{{ this.issues.prCount }}</span>
             </div>
-            <div class="hide-assignee-button" matTooltip="Hide Assignee" matTooltipPosition="above">
+            <div class="hide-button" [matTooltip]="getHiddenTooltip()" matTooltipPosition="above">
               <span class="octicon" octicon="eye-closed"></span>
             </div>
           </div>
@@ -79,6 +79,9 @@
             <div class="row-count" [matTooltip]="getPrTooltip()" matTooltipPosition="above">
               <span class="octicon count-margins" octicon="git-pull-request"></span>
               <span>{{ this.issues.prCount }}</span>
+            </div>
+            <div class="hide-button" [matTooltip]="getHiddenTooltip()" matTooltipPosition="above">
+              <span class="octicon" octicon="eye-closed"></span>
             </div>
           </div>
         </mat-card-title>
