@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Group } from '../../core/models/github/group.interface';
 import { GroupBy, GroupingContextService } from '../../core/services/grouping/grouping-context.service';
+import { FiltersService } from '../../core/services/filters.service';
 
 @Component({
   selector: 'app-hidden-groups',
@@ -16,8 +17,17 @@ export class HiddenGroupsComponent implements AfterViewInit {
   @ViewChild('milestoneCard') milestoneCardTemplate: TemplateRef<any>;
 
   private currentCardTemplate$ = new BehaviorSubject<TemplateRef<any>>(null);
+  private filterSubscription: Subscription;
 
-  constructor(public groupingContextService: GroupingContextService) {}
+  currentAssignees: string[] = [];
+
+  constructor(public groupingContextService: GroupingContextService, private filtersService: FiltersService) {}
+
+  ngOnInit() {
+    this.filterSubscription = this.filtersService.filter$.subscribe((filter) => {
+      this.currentAssignees = filter.assignees || [];
+    });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -43,5 +53,17 @@ export class HiddenGroupsComponent implements AfterViewInit {
       return 'Show Milestone';
     }
     return '';
+  }
+
+  showAssignee(assignee: any): void {
+    const currentAssignees: string[] = this.filtersService.filter$.value.assignees || [];
+    if (!currentAssignees.includes(assignee.login)) {
+      const updatedAssignees = [...currentAssignees, assignee.login];
+      this.filtersService.updateFilters({ assignees: updatedAssignees });
+    }
+  }
+
+  showMilestone(milestone: any): void {
+    console.log('show milestone:', milestone);
   }
 }
