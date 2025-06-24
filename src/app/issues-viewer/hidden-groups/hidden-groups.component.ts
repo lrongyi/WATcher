@@ -1,15 +1,15 @@
-import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Group } from '../../core/models/github/group.interface';
-import { GroupBy, GroupingContextService } from '../../core/services/grouping/grouping-context.service';
 import { FiltersService } from '../../core/services/filters.service';
+import { GroupBy, GroupingContextService } from '../../core/services/grouping/grouping-context.service';
 
 @Component({
   selector: 'app-hidden-groups',
   templateUrl: './hidden-groups.component.html',
   styleUrls: ['./hidden-groups.component.css']
 })
-export class HiddenGroupsComponent implements AfterViewInit {
+export class HiddenGroupsComponent implements OnInit, AfterViewInit {
   @Input() groups: Group[] = [];
 
   @ViewChild('defaultCard') defaultCardTemplate: TemplateRef<any>;
