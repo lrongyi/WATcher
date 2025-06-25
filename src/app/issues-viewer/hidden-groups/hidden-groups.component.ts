@@ -64,6 +64,10 @@ export class HiddenGroupsComponent implements OnInit, AfterViewInit {
   }
 
   showMilestone(milestone: any): void {
-    console.log('show milestone:', milestone);
+    const currentMilestones: string[] = this.filtersService.filter$.value.milestones || [];
+    if (!currentMilestones.includes(milestone.title)) {
+      const updatedMilestones = [...currentMilestones, milestone.title];
+      this.filtersService.updateFilters({ milestones: updatedMilestones });
+    }
   }
 }

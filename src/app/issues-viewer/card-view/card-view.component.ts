@@ -162,6 +162,8 @@ export class CardViewComponent implements OnInit, AfterViewInit, OnDestroy, Filt
   }
 
   hideMilestone(milestone: any): void {
-    console.log('Hide Milestone: ', milestone);
+    const currentMilestones: string[] = this.filtersService.filter$.value.milestones || [];
+    const updatedMilestones = currentMilestones.filter((title) => title !== milestone.title);
+    this.filtersService.updateFilters({ milestones: updatedMilestones });
   }
 }
