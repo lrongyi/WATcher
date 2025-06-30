@@ -41,11 +41,11 @@ export class AssigneeGroupingStrategy implements GroupingStrategy {
   }
 
   /**
-   * Groups other than "No Assignee" need to be shown on the
-   * hidden group list if empty.
+   * Show all groups in the hidden list.
+   * Determines if a group is in the hidden list.
    */
   isInHiddenList(group: GithubUser): boolean {
-    return group !== GithubUser.NO_ASSIGNEE;
+    return true; // All groups are shown in the hidden list.
   }
 
   private getDataAssignedToUser(issues: Issue[], user: GithubUser): Issue[] {
