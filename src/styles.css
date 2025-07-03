@@ -170,3 +170,7 @@ table {
   max-width: 15%;
   min-width: 180px;
 }
+
+.multiline-tooltip {
+  white-space: pre-line;
+}
