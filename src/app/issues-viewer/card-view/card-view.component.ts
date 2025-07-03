@@ -146,6 +146,10 @@ export class CardViewComponent implements OnInit, AfterViewInit, OnDestroy, Filt
     return this.issues.prCount + ' Pull Requests';
   }
 
+  getAssigneeTooltip(assignee: any): string {
+    return assignee.login;
+  }
+
   getHiddenButtonTooltip(): string {
     if (this.groupingContextService.currGroupBy === GroupBy.Assignee) {
       return 'Hide Assignee';
