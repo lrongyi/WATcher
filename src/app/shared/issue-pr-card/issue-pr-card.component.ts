@@ -72,4 +72,9 @@ export class IssuePrCardComponent {
   isMergedWithoutReview(issue: Issue): boolean {
     return issue.issueOrPr === 'PullRequest' && issue.state === 'MERGED' && (!issue.reviews || issue.reviews.length === 0);
   }
+
+  getIssueCardTooltip(issue: Issue): string {
+    const assignees = issue.assignees && issue.assignees.length > 0 ? 'Assigned to: ' + issue.assignees.join(', ') : 'No assignees';
+    return `${assignees}\nLast updated at ${issue.updated_at}`;
+  }
 }
