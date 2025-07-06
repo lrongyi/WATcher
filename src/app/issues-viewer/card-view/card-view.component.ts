@@ -149,4 +149,25 @@ export class CardViewComponent implements OnInit, AfterViewInit, OnDestroy, Filt
   getAssigneeTooltip(assignee: any): string {
     return assignee.login;
   }
+
+  getHiddenButtonTooltip(): string {
+    if (this.groupingContextService.currGroupBy === GroupBy.Assignee) {
+      return 'Hide Assignee';
+    } else if (this.groupingContextService.currGroupBy === GroupBy.Milestone) {
+      return 'Hide Milestone';
+    }
+    return '';
+  }
+
+  hideAssignee(assignee: any): void {
+    const currentAssignees: string[] = this.filtersService.filter$.value.assignees || [];
+    const updatedAssignees = currentAssignees.filter((login) => login !== assignee.login);
+    this.filtersService.updateFilters({ assignees: updatedAssignees });
+  }
+
+  hideMilestone(milestone: any): void {
+    const currentMilestones: string[] = this.filtersService.filter$.value.milestones || [];
+    const updatedMilestones = currentMilestones.filter((title) => title !== milestone.title);
+    this.filtersService.updateFilters({ milestones: updatedMilestones });
+  }
 }

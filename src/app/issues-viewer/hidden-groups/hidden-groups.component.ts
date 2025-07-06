@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Group } from '../../core/models/github/group.interface';
+import { FiltersService } from '../../core/services/filters.service';
 import { GroupBy, GroupingContextService } from '../../core/services/grouping/grouping-context.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { GroupBy, GroupingContextService } from '../../core/services/grouping/gr
   templateUrl: './hidden-groups.component.html',
   styleUrls: ['./hidden-groups.component.css']
 })
-export class HiddenGroupsComponent implements AfterViewInit {
+export class HiddenGroupsComponent implements OnInit, AfterViewInit {
   @Input() groups: Group[] = [];
 
   @ViewChild('defaultCard') defaultCardTemplate: TemplateRef<any>;
@@ -16,8 +17,17 @@ export class HiddenGroupsComponent implements AfterViewInit {
   @ViewChild('milestoneCard') milestoneCardTemplate: TemplateRef<any>;
 
   private currentCardTemplate$ = new BehaviorSubject<TemplateRef<any>>(null);
+  private filterSubscription: Subscription;
 
-  constructor(public groupingContextService: GroupingContextService) {}
+  currentAssignees: string[] = [];
+
+  constructor(public groupingContextService: GroupingContextService, private filtersService: FiltersService) {}
+
+  ngOnInit() {
+    this.filterSubscription = this.filtersService.filter$.subscribe((filter) => {
+      this.currentAssignees = filter.assignees || [];
+    });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -33,6 +43,31 @@ export class HiddenGroupsComponent implements AfterViewInit {
         return this.milestoneCardTemplate;
       default:
         return this.defaultCardTemplate;
+    }
+  }
+
+  getShowButtonTooltip(): string {
+    if (this.groupingContextService.currGroupBy === GroupBy.Assignee) {
+      return 'Show Assignee';
+    } else if (this.groupingContextService.currGroupBy === GroupBy.Milestone) {
+      return 'Show Milestone';
+    }
+    return '';
+  }
+
+  showAssignee(assignee: any): void {
+    const currentAssignees: string[] = this.filtersService.filter$.value.assignees || [];
+    if (!currentAssignees.includes(assignee.login)) {
+      const updatedAssignees = [...currentAssignees, assignee.login];
+      this.filtersService.updateFilters({ assignees: updatedAssignees });
+    }
+  }
+
+  showMilestone(milestone: any): void {
+    const currentMilestones: string[] = this.filtersService.filter$.value.milestones || [];
+    if (!currentMilestones.includes(milestone.title)) {
+      const updatedMilestones = [...currentMilestones, milestone.title];
+      this.filtersService.updateFilters({ milestones: updatedMilestones });
     }
   }
 }

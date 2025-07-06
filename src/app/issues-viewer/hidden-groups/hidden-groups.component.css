@@ -80,3 +80,7 @@
 .scrollable-container::after {
   position: sticky;
 }
+
+.show-button {
+  cursor: pointer;
+}

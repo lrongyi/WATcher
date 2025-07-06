@@ -144,6 +144,15 @@ div.column-header .mat-card-header {
   margin-top: 3px;
 }
 
+.hide-button {
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 14px;
+  padding: 6px 8px 3px 8px;
+  color: rgb(0, 0, 0);
+  font-weight: 410;
+}
+
 .assignee-container {
   width: 100%;
   text-align: left;

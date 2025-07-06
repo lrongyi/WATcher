@@ -37,10 +37,10 @@ export class MilestoneGroupingStrategy implements GroupingStrategy {
   }
 
   /**
-   * Groups other than Default Milestone need to be shown on the
-   * hidden group list if empty.
+   * Show all milestones in the hidden list.
+   * Determines if a milestone is in the hidden list.
    */
   isInHiddenList(group: Milestone): boolean {
-    return group !== Milestone.IssueWithoutMilestone && group !== Milestone.PRWithoutMilestone;
+    return true;
   }
 }
